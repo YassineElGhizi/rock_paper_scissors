@@ -6,26 +6,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "games")
+public class Game {
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column(unique = true)
-    private String name;
-    private String password;
-    private String token;
-    private String img;
+    private Integer State;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @OneToMany(mappedBy = "user")//removing the pivot table
-    private List<Game> games;
 
 }
