@@ -13,11 +13,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "games")
 public class Game {
+    public Game(Integer state, User user) {
+        this.state = state;
+        this.user = user;
+    }
+
     @Id
     @GeneratedValue
     private Long id;
 
-    private Integer State;
+    private Integer state;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
