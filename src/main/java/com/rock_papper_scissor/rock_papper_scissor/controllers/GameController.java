@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -26,6 +28,25 @@ public class GameController {
     public GameController(UserRepository userRepository, GameRepository gameRepository) {
         this.userRepository = userRepository;
         this.gameRepository = gameRepository;
+    }
+
+
+    @GetMapping
+    public HttpEntity<HashMap<String, Object>> get_user_games(@RequestParam(name = "id") Long id) {
+        List<Game> games = gameRepository.findByUserId(id);
+        HashMap<String, Object> data = new HashMap<>();
+        if (games.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+        } else {
+            Integer lose = Math.toIntExact(gameRepository.countByUserIdAndState(id, -1));
+            Integer draw = Math.toIntExact(gameRepository.countByUserIdAndState(id, 0));
+            Integer win = Math.toIntExact(gameRepository.countByUserIdAndState(id, 1));
+            data.put("lose", lose);
+            data.put("draw", draw);
+            data.put("win", win);
+            data.put("total_items", (long) games.size());
+            return ResponseEntity.status(HttpStatus.OK).body(data);
+        }
     }
 
     @PostMapping
@@ -44,8 +65,8 @@ public class GameController {
                 return ResponseEntity.status(HttpStatus.CREATED).body(u);
             }
             return ResponseEntity.status(HttpStatus.CREATED).body(new User());
-
         }
-
     }
+
+
 }

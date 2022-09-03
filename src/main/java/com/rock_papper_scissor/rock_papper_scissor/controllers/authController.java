@@ -31,7 +31,6 @@ public class authController {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String encrypted_password = encoder.encode(user.getPassword());
             user.setPassword(encrypted_password);
-            System.out.println("Saving :" + user.toString());
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(user);
         } else {

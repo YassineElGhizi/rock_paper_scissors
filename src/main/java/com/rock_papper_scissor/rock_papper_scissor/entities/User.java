@@ -1,6 +1,7 @@
 package com.rock_papper_scissor.rock_papper_scissor.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class User {
     private String img;
 
 
+    @JsonBackReference
     @OneToMany(mappedBy = "user")//removing the pivot table
     private List<Game> games;
 
