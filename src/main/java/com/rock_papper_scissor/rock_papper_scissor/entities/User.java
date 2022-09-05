@@ -30,4 +30,8 @@ public class User {
     @OneToMany(mappedBy = "user")//removing the pivot table
     private List<Game> games;
 
+    public List<Game> get_wins() {
+        return this.games;
+    }
+
 }

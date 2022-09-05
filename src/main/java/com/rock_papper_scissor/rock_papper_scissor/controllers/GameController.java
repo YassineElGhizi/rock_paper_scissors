@@ -58,9 +58,6 @@ public class GameController {
             User u = user.get();
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             if (encoder.matches(u.getName(), token)) {
-                System.out.println("NEW SKILSS ");
-                System.out.println(gameRequest.game_score);
-                System.out.println(gameRequest.game_score.getClass());
                 gameRepository.save(new Game(gameRequest.game_score, u));
                 return ResponseEntity.status(HttpStatus.CREATED).body(u);
             }
